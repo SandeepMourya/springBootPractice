@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -81,6 +82,12 @@ public class CartService {
         if(uOpt.isEmpty())return new ArrayList<>();
         User user = uOpt.get();
         return cartRepository.findByUser(user);
+
+    }
+
+    public void clearCart(String userID) {
+
+        userRepository.findById(Long.valueOf(userID)).ifPresent(cartRepository::deleteByUser);
 
     }
 }
